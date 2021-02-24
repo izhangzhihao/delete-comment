@@ -41,7 +41,8 @@ async function run(): Promise<void> {
       }
     }
   } catch (error) {
-    console.error(`Error happend: ${error.message}`)
+    console.error(error)
+    console.error(error.stack)
     core.setFailed(error.message)
   }
 }
