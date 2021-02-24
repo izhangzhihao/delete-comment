@@ -2,6 +2,9 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 
 async function run(): Promise<void> {
+  console.log(
+    `startting process for ${github.context.repo.owner}/${github.context.repo.repo}`
+  )
   try {
     const token: string = core.getInput('github_token')
     const userName: string = core.getInput('delete_user_name')
@@ -38,6 +41,7 @@ async function run(): Promise<void> {
       }
     }
   } catch (error) {
+    console.error(`Error happend: ${error.message}`)
     core.setFailed(error.message)
   }
 }

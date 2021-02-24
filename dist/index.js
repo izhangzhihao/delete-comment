@@ -40,6 +40,7 @@ const core = __importStar(__nccwpck_require__(186));
 const github = __importStar(__nccwpck_require__(438));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(`startting process for ${github.context.repo.owner}/${github.context.repo.repo}`);
         try {
             const token = core.getInput('github_token');
             const userName = core.getInput('delete_user_name');
@@ -66,6 +67,7 @@ function run() {
             }
         }
         catch (error) {
+            console.error(`Error happend: ${error.message}`);
             core.setFailed(error.message);
         }
     });
