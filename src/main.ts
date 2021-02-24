@@ -11,10 +11,13 @@ async function run(): Promise<void> {
 
     const octokit = github.getOctokit(token)
 
-    const issues = await octokit.paginate('GET /repos/:owner/:repo/issues', {
-      owner: github.context.repo.owner,
-      repo: github.context.repo.repo
-    })
+    const issues = await octokit.paginate(
+      'GET /repos/:owner/:repo/issues?state=all',
+      {
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo
+      }
+    )
 
     for (const issue of issues) {
       const resp = await octokit.issues.listComments({

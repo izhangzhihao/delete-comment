@@ -45,7 +45,7 @@ function run() {
             const token = core.getInput('github_token');
             const userName = core.getInput('delete_user_name');
             const octokit = github.getOctokit(token);
-            const issues = yield octokit.paginate('GET /repos/:owner/:repo/issues', {
+            const issues = yield octokit.paginate('GET /repos/:owner/:repo/issues?state=all', {
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo
             });
