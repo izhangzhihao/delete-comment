@@ -40,12 +40,12 @@ const core = __importStar(__nccwpck_require__(186));
 const github = __importStar(__nccwpck_require__(438));
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(`startting process for ${github.context.repo.owner}/${github.context.repo.repo}`);
+        console.log(`starting process for ${github.context.repo.owner}/${github.context.repo.repo}`);
         try {
             const token = core.getInput('github_token');
             const userName = core.getInput('delete_user_name');
             const octokit = github.getOctokit(token);
-            const issues = yield octokit.paginate(octokit.issues.list, {
+            const issues = yield octokit.paginate('GET /repos/:owner/:repo/issues', {
                 owner: github.context.repo.owner,
                 repo: github.context.repo.repo
             });
@@ -53,7 +53,7 @@ function run() {
                 const resp = yield octokit.issues.listComments({
                     owner: github.context.repo.owner,
                     repo: github.context.repo.repo,
-                    issue_number: issue.number
+                    issue_number: issue['number']
                 });
                 const comments = resp.data.filter(it => { var _a; return ((_a = it.user) === null || _a === void 0 ? void 0 : _a.login) === userName; });
                 for (const comment of comments) {
