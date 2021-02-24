@@ -1,11 +1,14 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Delete Comment'
+description: 'delete comments from issue/pr by username'
+author: 'izhangzhihao'
 inputs:
-  milliseconds: # change this
+  github_token:
+    description: 'The GitHub token used to create an authenticated client'
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  delete_user_name:
+    description: 'Github username to delete comments'
+    default: 'open-collective-bot[bot]'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
