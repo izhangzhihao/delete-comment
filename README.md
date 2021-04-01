@@ -6,7 +6,7 @@
 
 Delete-comment Action will delete comments from issue/pr by username.
 
-## Sample Workflows Triggered Manually
+## Sample Manually Triggered Workflow
 
 ```yaml
 name: delete comments from open-collective-bot
