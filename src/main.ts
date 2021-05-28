@@ -12,7 +12,7 @@ async function run(): Promise<void> {
 
     const octokit = github.getOctokit(token)
 
-    const issues: string[] = []
+    const issues = []
 
     if (issueNumber) {
       issues.push(issueNumber)
