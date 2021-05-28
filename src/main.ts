@@ -8,16 +8,25 @@ async function run(): Promise<void> {
   try {
     const token: string = core.getInput('github_token')
     const userName: string = core.getInput('delete_user_name')
+    const issueNumber: string = core.getInput('issue_number')
 
     const octokit = github.getOctokit(token)
 
-    const issues = await octokit.paginate(
-      'GET /repos/:owner/:repo/issues?state=all',
-      {
-        owner: github.context.repo.owner,
-        repo: github.context.repo.repo
-      }
-    )
+    const issues: string[] = []
+
+    if (issueNumber) {
+      issues.push(issueNumber)
+    } else {
+      const allIssues = await octokit.paginate(
+        'GET /repos/:owner/:repo/issues?state=all',
+        {
+          owner: github.context.repo.owner,
+          repo: github.context.repo.repo
+        }
+      )
+
+      issues.push(...allIssues)
+    }
 
     for (const issue of issues) {
       const resp = await octokit.issues.listComments({

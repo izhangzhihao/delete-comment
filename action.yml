@@ -9,6 +9,9 @@ inputs:
     description: 'Github username to delete comments'
     default: 'open-collective-bot[bot]'
     required: false
+  issue_number:
+    description: 'Issue/PR on which to delete comments. If not provided, comments will be deleted across the repo.'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
