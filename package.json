@@ -1,6 +1,6 @@
 {
   "name": "delete-comment",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "delete comments from issue/pr by username",
   "main": "lib/main.js",
