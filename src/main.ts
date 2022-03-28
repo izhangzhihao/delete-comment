@@ -17,16 +17,15 @@ async function run(): Promise<void> {
     if (issueNumber) {
       issues.push(issueNumber)
     } else {
-      const allIssues: number[] = await octokit.paginate(
+      const allIssues = await octokit.paginate(
         'GET /repos/:owner/:repo/issues?state=all',
         {
           owner: github.context.repo.owner,
           repo: github.context.repo.repo
-        },
-        response => response.data.map(issue => issue.issue_number)
+        }
       )
 
-      issues.push(...allIssues)
+      issues.push(...allIssues.map((value: any) => value['number']))
     }
 
     for (const issue of issues) {
