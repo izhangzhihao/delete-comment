@@ -1,5 +1,4 @@
-require('./sourcemap-register.js');module.exports =
-/******/ (() => { // webpackBootstrap
+require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ 109:
@@ -44,16 +43,25 @@ function run() {
         try {
             const token = core.getInput('github_token');
             const userName = core.getInput('delete_user_name');
+            const issueNumber = parseInt(core.getInput('issue_number'));
             const octokit = github.getOctokit(token);
-            const issues = yield octokit.paginate('GET /repos/:owner/:repo/issues?state=all', {
-                owner: github.context.repo.owner,
-                repo: github.context.repo.repo
-            });
+            const issues = [];
+            if (issueNumber) {
+                issues.push(issueNumber);
+            }
+            else {
+                console.log('issue_number not provided, will clean all the issues.');
+                const allIssues = yield octokit.paginate('GET /repos/:owner/:repo/issues?state=all', {
+                    owner: github.context.repo.owner,
+                    repo: github.context.repo.repo
+                });
+                issues.push(...allIssues.map((value) => value['number']));
+            }
             for (const issue of issues) {
                 const resp = yield octokit.issues.listComments({
                     owner: github.context.repo.owner,
                     repo: github.context.repo.repo,
-                    issue_number: issue['number']
+                    issue_number: issue
                 });
                 const comments = resp.data.filter(it => { var _a; return ((_a = it.user) === null || _a === void 0 ? void 0 : _a.login) === userName; });
                 for (const comment of comments) {
@@ -274,6 +282,7 @@ exports.getInput = getInput;
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setOutput(name, value) {
+    process.stdout.write(os.EOL);
     command_1.issueCommand('set-output', { name }, value);
 }
 exports.setOutput = setOutput;
@@ -6037,8 +6046,9 @@ module.exports = require("zlib");;
 /******/ 	// The require function
 /******/ 	function __nccwpck_require__(moduleId) {
 /******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
@@ -6063,11 +6073,14 @@ module.exports = require("zlib");;
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
-/******/ 	__nccwpck_require__.ab = __dirname + "/";/************************************************************************/
-/******/ 	// module exports must be returned from runtime so entry inlining is disabled
+/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";/************************************************************************/
+/******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __nccwpck_require__(109);
+/******/ 	// This entry module is referenced by other modules so it can't be inlined
+/******/ 	var __webpack_exports__ = __nccwpck_require__(109);
+/******/ 	module.exports = __webpack_exports__;
+/******/ 	
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map
