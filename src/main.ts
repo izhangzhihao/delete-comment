@@ -17,6 +17,7 @@ async function run(): Promise<void> {
     if (issueNumber) {
       issues.push(issueNumber)
     } else {
+      console.log('issue_number not provided, will clean all the issues.')
       const allIssues = await octokit.paginate(
         'GET /repos/:owner/:repo/issues?state=all',
         {
