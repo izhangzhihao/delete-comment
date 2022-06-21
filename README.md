@@ -21,6 +21,6 @@ jobs:
       - uses: izhangzhihao/delete-comment@master
         with: 
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          delete_user_name: open-collective-bot[bot]
+          comment_body: LCOV
           issue_number: ${{ github.event.number }}  # remove comments from the current PR
 ```
