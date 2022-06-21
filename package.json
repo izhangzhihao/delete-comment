@@ -1,8 +1,8 @@
 {
-  "name": "delete-comment",
+  "name": "delete-prev-comments",
   "version": "0.0.2",
   "private": true,
-  "description": "delete comments from issue/pr by username",
+  "description": "delete comments from issue by comment body",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/izhangzhihao/delete-comment.git"
+    "url": "git+https://github.com/mieszkoWrzeszczynskiMtab/delete-prev-comments.git"
   },
   "keywords": [
     "actions",
