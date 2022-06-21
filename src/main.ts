@@ -36,7 +36,7 @@ async function run(): Promise<void> {
         issue_number: issue
       })
 
-      const comments = resp.data.filter(it => it.user?.login === userName)
+      const comments = resp.data.filter(it => it.user?.login === userName).filter(cmt => cmt.body_text.includes('LCOV'))
 
       for (const comment of comments) {
         console.log(
