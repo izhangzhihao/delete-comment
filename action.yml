@@ -7,11 +7,15 @@ inputs:
     required: true
   delete_user_name:
     description: 'Github username to delete comments'
-    default: 'open-collective-bot[bot]'
+    default: 'github-actions[bot]'
+    required: false
+  body_regex:
+    description: 'Only delete if existing comment contains this text. If not provided, comments will match any body.'
+    default: '.*'
     required: false
   issue_number:
-    description: 'Issue/PR on which to delete comments. If not provided, comments will be deleted across the repo.'
-    required: false
+    description: 'Issue/PR on which to delete comments. This must be provided to prevent mistakes.'
+    required: true
 runs:
   using: 'node12'
   main: 'dist/index.js'

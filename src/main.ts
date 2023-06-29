@@ -8,6 +8,7 @@ async function run(): Promise<void> {
   try {
     const token: string = core.getInput('github_token')
     const userName: string = core.getInput('delete_user_name')
+    const bodyRegex: string = core.getInput('body_regex')
     const issueNumber: number = parseInt(core.getInput('issue_number'))
 
     const octokit = github.getOctokit(token)
@@ -36,11 +37,13 @@ async function run(): Promise<void> {
         issue_number: issue
       })
 
-      const comments = resp.data.filter(it => it.user?.login === userName)
+      const comments = resp.data.filter(
+        it => it.user?.login === userName && it.body.match(bodyRegex)
+      )
 
       for (const comment of comments) {
         console.log(
-          `Processing issue ${comment.issue_url} user: ${comment.user} comment: ${comment.body_text}`
+          `Processing issue ${comment.issue_url} user: ${comment.user?.login} comment: ${comment.body}`
         )
 
         await octokit.request(
