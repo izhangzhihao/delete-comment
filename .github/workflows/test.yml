@@ -13,6 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
+          export NODE_OPTIONS=--openssl-legacy-provider
+      - run: |
           npm install
       - name: Build the action.
         run: |
