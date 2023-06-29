@@ -10,27 +10,9 @@ async function run(): Promise<void> {
     const userName: string = core.getInput('delete_user_name')
     const bodyRegex: string = core.getInput('body_regex')
     const issueNumber: number = parseInt(core.getInput('issue_number'))
-
     const octokit = github.getOctokit(token)
 
-    const issues: number[] = []
-
-    if (issueNumber) {
-      issues.push(issueNumber)
-    } else {
-      console.log('issue_number not provided, will clean all the issues.')
-      const allIssues = await octokit.paginate(
-        'GET /repos/:owner/:repo/issues?state=all',
-        {
-          owner: github.context.repo.owner,
-          repo: github.context.repo.repo
-        }
-      )
-
-      issues.push(...allIssues.map((value: any) => value['number']))
-    }
-
-    for (const issue of issues) {
+    const deleteComments = async (issue: number): Promise<void> => {
       const resp = await octokit.issues.listComments({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
@@ -38,7 +20,7 @@ async function run(): Promise<void> {
       })
 
       const comments = resp.data.filter(
-        it => it.user?.login === userName && it.body.match(bodyRegex)
+        it => it.user?.login === userName && it.body?.match(bodyRegex)
       )
 
       for (const comment of comments) {
@@ -56,6 +38,8 @@ async function run(): Promise<void> {
         )
       }
     }
+
+    await deleteComments(issueNumber)
   } catch (error) {
     console.error(error)
     console.error(error.stack)
