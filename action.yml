@@ -17,5 +17,5 @@ inputs:
     description: 'Issue/PR on which to delete comments. This must be provided to prevent mistakes.'
     required: true
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
