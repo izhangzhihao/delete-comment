@@ -13,7 +13,7 @@ async function run(): Promise<void> {
     const octokit = github.getOctokit(token)
 
     const deleteComments = async (issue: number): Promise<void> => {
-      const resp = await octokit.issues.listComments({
+      const resp = await octokit.rest.issues.listComments({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         issue_number: issue
@@ -42,9 +42,11 @@ async function run(): Promise<void> {
     await deleteComments(issueNumber)
   } catch (error) {
     console.error(error)
-    console.error(error.stack)
-    core.setFailed(error.message)
+    if (error instanceof Error) {
+      console.error(error.stack)
+      core.setFailed(error.message)
+    }
   }
 }
 
-run()
+void run()
